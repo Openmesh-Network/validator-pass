@@ -13,7 +13,7 @@ export async function deploy(
 ): Promise<ValidatorPassDeployment> {
   const validatorPass = await deployer.deploy({
     id: "Validator Pass",
-    contract: "validatorPass",
+    contract: "ValidatorPass",
     ...settings,
   });
 
