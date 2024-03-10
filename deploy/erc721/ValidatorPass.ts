@@ -9,7 +9,7 @@ export async function deployValidatorPass(
 ): Promise<Address> {
   return await deployer
     .deploy({
-      id: "Validator Pass",
+      id: "ValidatorPass",
       contract: "ValidatorPass",
       ...settings,
     })
