@@ -1,7 +1,13 @@
-import { Address, DeployInfo, Deployer } from "../web3webdeploy/types";
+import { Address, Deployer } from "../web3webdeploy/types";
+import {
+  DeployValidatorPassSettings,
+  deployValidatorPass,
+} from "./erc721/ValidatorPass";
 
-export interface ValidatorPassDeploymentSettings
-  extends Omit<DeployInfo, "contract" | "args"> {}
+export interface ValidatorPassDeploymentSettings {
+  validatorPassSettings: DeployValidatorPassSettings;
+  forceRedeploy?: boolean;
+}
 
 export interface ValidatorPassDeployment {
   validatorPass: Address;
@@ -11,11 +17,14 @@ export async function deploy(
   deployer: Deployer,
   settings?: ValidatorPassDeploymentSettings
 ): Promise<ValidatorPassDeployment> {
-  const validatorPass = await deployer.deploy({
-    id: "Validator Pass",
-    contract: "ValidatorPass",
-    ...settings,
-  });
+  if (settings?.forceRedeploy !== undefined && !settings.forceRedeploy) {
+    return await deployer.loadDeployment({ deploymentName: "latest.json" });
+  }
+
+  const validatorPass = await deployValidatorPass(
+    deployer,
+    settings?.validatorPassSettings ?? {}
+  );
 
   const deployment = {
     validatorPass: validatorPass,
