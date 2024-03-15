@@ -2,7 +2,7 @@ import { Address, Deployer } from "../web3webdeploy/types";
 import {
   DeployValidatorPassSettings,
   deployValidatorPass,
-} from "./erc721/ValidatorPass";
+} from "./internal/ValidatorPass";
 
 export interface ValidatorPassDeploymentSettings {
   validatorPassSettings: DeployValidatorPassSettings;
