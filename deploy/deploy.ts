@@ -18,7 +18,12 @@ export async function deploy(
   settings?: ValidatorPassDeploymentSettings
 ): Promise<ValidatorPassDeployment> {
   if (settings?.forceRedeploy !== undefined && !settings.forceRedeploy) {
-    return await deployer.loadDeployment({ deploymentName: "latest.json" });
+    const existingDeployment = await deployer.loadDeployment({
+      deploymentName: "latest.json",
+    });
+    if (existingDeployment !== undefined) {
+      return existingDeployment;
+    }
   }
 
   const validatorPass = await deployValidatorPass(
