@@ -10,6 +10,6 @@ interface IValidatorPass {
     /// Redeem the validator pass, enabling a certain validator address to join the network.
     /// @param tokenId The id of the validator pass.
     /// @param validatorAddress The address of the validator to activate.
-    /// @notice A pass can only be redeemed once. After being redeemed it cannot be transfered anymore.
+    /// @notice A pass can only be redeemed once. After being redeemed it cannot be transferred anymore.
     function redeem(uint256 tokenId, bytes32 validatorAddress) external;
 }
