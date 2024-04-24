@@ -9,15 +9,14 @@ import {IERC721Mintable} from "./IERC721Mintable.sol";
 import {IValidatorPass} from "./IValidatorPass.sol";
 
 contract ValidatorPass is ERC721, AccessControl, OpenmeshENSReverseClaimable, IERC721Mintable, IValidatorPass {
-    event Redeemed(uint256 tokenId, bytes32 validatorAddress);
+    event ValidatorSet(uint256 tokenId, bytes32 validatorAddress);
 
-    error InvalidValidatorAddress(bytes32 validatorAddress);
     error NotOwner(address account, uint256 tokenId);
-    error AlreadyRedeemed(uint256 tokenId);
+    error ValidatorActive(uint256 tokenId);
 
     bytes32 public constant MINT_ROLE = keccak256("MINT");
     uint256 public mintCounter;
-    mapping(uint256 tokenId => bytes32 validatorAddress) private redeems;
+    mapping(uint256 tokenId => bytes32 validatorAddress) private validators;
 
     constructor() ERC721("Genesis Validator Pass", "GVP") {
         _grantRole(DEFAULT_ADMIN_ROLE, OPENMESH_ADMIN);
@@ -37,7 +36,7 @@ contract ValidatorPass is ERC721, AccessControl, OpenmeshENSReverseClaimable, IE
 
     /// @inheritdoc IValidatorPass
     function getValidator(uint256 tokenId) external view returns (bytes32 validatorAddress) {
-        validatorAddress = redeems[tokenId];
+        validatorAddress = validators[tokenId];
     }
 
     /// @inheritdoc IERC721Mintable
@@ -46,27 +45,19 @@ contract ValidatorPass is ERC721, AccessControl, OpenmeshENSReverseClaimable, IE
     }
 
     /// @inheritdoc IValidatorPass
-    function redeem(uint256 tokenId, bytes32 validatorAddress) external {
-        if (validatorAddress == bytes32(0)) {
-            revert InvalidValidatorAddress(validatorAddress);
-        }
-
-        if (redeems[tokenId] != bytes32(0)) {
-            revert AlreadyRedeemed(tokenId);
-        }
-
+    function setValidator(uint256 tokenId, bytes32 validatorAddress) external {
         if (msg.sender != _ownerOf(tokenId)) {
             revert NotOwner(msg.sender, tokenId);
         }
 
-        redeems[tokenId] = validatorAddress;
-        emit Redeemed(tokenId, validatorAddress);
+        validators[tokenId] = validatorAddress;
+        emit ValidatorSet(tokenId, validatorAddress);
     }
 
     /// @inheritdoc ERC721
     function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
-        if (redeems[tokenId] != bytes32(0)) {
-            revert AlreadyRedeemed(tokenId);
+        if (validators[tokenId] != bytes32(0)) {
+            revert ValidatorActive(tokenId);
         }
 
         super.transferFrom(from, to, tokenId);

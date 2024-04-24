@@ -7,9 +7,9 @@ interface IValidatorPass {
     /// @dev Bytes32(0) means there is no address linked.
     function getValidator(uint256 tokenId) external view returns (bytes32 validatorAddress);
 
-    /// Redeem the validator pass, enabling a certain validator address to join the network.
+    /// Enabling a certain validator address to join the network. This will disable any previously set validator address.
     /// @param tokenId The id of the validator pass.
     /// @param validatorAddress The address of the validator to activate.
-    /// @notice A pass can only be redeemed once. After being redeemed it cannot be transferred anymore.
-    function redeem(uint256 tokenId, bytes32 validatorAddress) external;
+    /// @notice A pass can only be transferred while it's validatorAddress is zero. You can set it to the zero bytes to disable your validator.
+    function setValidator(uint256 tokenId, bytes32 validatorAddress) external;
 }
