@@ -6,7 +6,7 @@
 	url = https://github.com/Plopmenz/web3webdeploy
 [submodule "lib/openmesh-admin"]
 	path = lib/openmesh-admin
-	url = https://github.com/Plopmenz/openmesh-admin
+	url = https://github.com/Openmesh-Network/openmesh-admin
 [submodule "lib/openzeppelin-contracts"]
 	path = lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
