@@ -31,7 +31,7 @@ export async function deploy(
     settings?.validatorPassSettings ?? {}
   );
 
-  const deployment = {
+  const deployment: ValidatorPassDeployment = {
     validatorPass: validatorPass,
   };
   await deployer.saveDeployment({
