@@ -18,7 +18,7 @@ contract ValidatorPass is ERC721, AccessControl, OpenmeshENSReverseClaimable, IE
     uint256 public mintCounter;
     mapping(uint256 tokenId => bytes32 validatorAddress) private validators;
 
-    constructor() ERC721("Genesis Validator Pass", "GVP") {
+    constructor() ERC721("Early Validator Pass", "EVP") {
         _grantRole(DEFAULT_ADMIN_ROLE, OPENMESH_ADMIN);
     }
 

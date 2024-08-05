@@ -1,6 +1,6 @@
 ## Validator Pass
 
-The Genesis Validator Pass (GVP) ERC721 token contract.
+The Early Validator Pass (EVP) ERC721 token contract.
 
 ## Documentation
 
